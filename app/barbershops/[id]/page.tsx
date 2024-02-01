@@ -23,7 +23,7 @@ const BarberShopDetailsPage = async ({ params }: BarberShopDetailsProps) => {
   });
 
   if (!barberShop) {
-    return null;
+    return null; 
   }
 
   return (

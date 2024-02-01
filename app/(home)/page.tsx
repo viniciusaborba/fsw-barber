@@ -1,7 +1,6 @@
 import BookingItem from "../_components/booking-item";
 import Header from "../_components/header";
 import { db } from "../_lib/prisma";
-import BarberShopItem from "./_components/barbershop-item";
 import Carousel from "./_components/carousel";
 import Search from "./_components/search";
 import WelcomeMessage from "./_components/welcome";
