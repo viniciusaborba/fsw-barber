@@ -16,7 +16,7 @@ const BarberShopInfo = ({ barberShop }: BarberShopInfoProps) => {
   const router = useRouter();
 
   const handleBackClick = () => {
-    router.back();
+    router.replace("/");
   };
 
   return (
