@@ -10,13 +10,15 @@ import {
   SheetTrigger,
 } from "@/app/_components/ui/sheet";
 import { Barbershop, Service } from "@prisma/client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { generateDayTimeList } from "../_helpers/hours";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { ptBR } from "date-fns/locale";
-import { format } from "date-fns";
+import { format, setHours, setMinutes } from "date-fns";
+import { saveBooking } from "../_actions/save-booking";
+import { Loader2 } from "lucide-react";
 
 interface ServiceItemProps {
   barberShop: Barbershop;
@@ -29,12 +31,39 @@ const ServiceItem = ({
   isAuthenticated,
   barberShop,
 }: ServiceItemProps) => {
+  const { data } = useSession();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [hour, setHour] = useState<string | undefined>();
+  const [submitIsLoading, setSubmitIsLoading] = useState(false);
 
   const handleDateChangeClick = (date: Date | undefined) => {
     setDate(date);
     setHour(undefined);
+  };
+
+  const handleBookingSubmit = async () => {
+    setSubmitIsLoading(true);
+    try {
+      if (!hour || !date || !data?.user) {
+        return;
+      }
+
+      const dateHour = Number(hour.split(":")[0]);
+      const dateMinutes = Number(hour.split(":")[1]);
+
+      const newDate = setMinutes(setHours(date, dateHour), dateMinutes);
+
+      await saveBooking({
+        serviceId: service.id,
+        barberShopId: barberShop.id,
+        date: newDate,
+        userId: (data.user as any).id,
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setSubmitIsLoading(false);
+    }
   };
 
   const handleHourClick = (time: string) => {
@@ -179,7 +208,15 @@ const ServiceItem = ({
                     </div>
 
                     <SheetFooter className="px-5">
-                      <Button>Confirmar reserva</Button>
+                      <Button
+                        disabled={!hour || !date || submitIsLoading}
+                        onClick={handleBookingSubmit}
+                      >
+                        {submitIsLoading && (
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        Confirmar reserva
+                      </Button>
                     </SheetFooter>
                   </SheetContent>
                 </Sheet>
