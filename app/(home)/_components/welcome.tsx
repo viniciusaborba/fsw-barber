@@ -11,7 +11,9 @@ const WelcomeMessage = () => {
     <div className="px-5 pt-5 ">
       {data?.user ? (
         <div>
-          <h2 className="text-xl font-bold">{`Olá, ${data.user.name}!`}</h2>
+          <h2 className="text-xl font-bold">{`Olá, ${
+            data.user.name?.split(" ")[0]
+          }!`}</h2>
           <p className="capitalize text-sm">
             {format(new Date(), "EEEE', 'dd 'de' MMMM", {
               locale: ptBR,
