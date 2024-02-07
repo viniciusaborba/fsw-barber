@@ -1,14 +1,27 @@
-'use client'
+"use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
 import { SheetHeader, SheetTitle } from "./ui/sheet";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
-import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon, UserIcon } from "lucide-react";
+import {
+  CalendarIcon,
+  HomeIcon,
+  LogInIcon,
+  LogOutIcon,
+  UserIcon,
+} from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const SideMenu = () => {
   const { data } = useSession();
+
+  const router = useRouter();
+
+  const handleBookingPageClick = () => {
+    router.push("/bookings");
+  };
 
   const handleSignOutClick = () => {
     signOut();
@@ -68,7 +81,11 @@ const SideMenu = () => {
         </Button>
 
         {data?.user && (
-          <Button variant="outline" className="justify-start">
+          <Button
+            variant="outline"
+            className="justify-start"
+            onClick={handleBookingPageClick}
+          >
             <CalendarIcon size={18} className="mr-2" />
             Agendamentos
           </Button>
