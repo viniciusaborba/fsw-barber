@@ -5,7 +5,7 @@ import { db } from "../_lib/prisma";
 import Carousel from "./_components/carousel";
 import Search from "./_components/search";
 import WelcomeMessage from "./_components/welcome";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../_lib/auth";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
