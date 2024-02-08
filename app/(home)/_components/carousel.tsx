@@ -3,12 +3,12 @@ import BarberShopItem from "./barbershop-item";
 
 interface CarouselProps {
   text: string;
-  popular?: boolean;
+  recommended?: boolean;
 }
 
-async function Carousel({ text, popular }: CarouselProps) {
+async function Carousel({ text, recommended }: CarouselProps) {
   const barberShops = await db.barbershop.findMany({});
-  const PopularBarberShops = await db.barbershop.findMany({
+  const recommendedBarberShops = await db.barbershop.findMany({
     orderBy: {
       id: "asc",
     },
@@ -20,9 +20,9 @@ async function Carousel({ text, popular }: CarouselProps) {
         {text}
       </h2>
 
-      {popular ? (
+      {recommended ? (
         <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
-          {PopularBarberShops.map((barberShop) => (
+          {recommendedBarberShops.map((barberShop) => (
             <div key={barberShop.id} className="min-w-[167px] max-w-[167px]">
               <BarberShopItem barberShop={barberShop} />
             </div>
