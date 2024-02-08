@@ -172,7 +172,7 @@ const ServiceItem = ({
                     </Button>
                   </SheetTrigger>
 
-                  <SheetContent className="p-0">
+                  <SheetContent className="p-0 overflow-y-auto [&::-webkit-scrollbar]:hidden">
                     <SheetHeader className="text-left px-5 py-6 border-b border-solid border-secondary">
                       Fazer Reserva
                     </SheetHeader>
