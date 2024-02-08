@@ -3,10 +3,16 @@ import BarberShopItem from "./barbershop-item";
 
 interface CarouselProps {
   text: string;
+  recommended?: boolean;
 }
 
-async function Carousel({ text }: CarouselProps) {
+async function Carousel({ text, recommended }: CarouselProps) {
   const barberShops = await db.barbershop.findMany({});
+  const RecommendedBarberShops = await db.barbershop.findMany({
+    orderBy: {
+      id: "asc",
+    },
+  });
 
   return (
     <div className="mt-6">
@@ -14,13 +20,23 @@ async function Carousel({ text }: CarouselProps) {
         {text}
       </h2>
 
-      <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
-        {barberShops.map((barberShop) => (
-          <div key={barberShop.id} className="min-w-[167px] max-w-[167px]">
-            <BarberShopItem  barberShop={barberShop} />
-          </div>
-        ))}
-      </div>
+      {recommended ? (
+        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
+          {RecommendedBarberShops.map((barberShop) => (
+            <div key={barberShop.id} className="min-w-[167px] max-w-[167px]">
+              <BarberShopItem barberShop={barberShop} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
+          {barberShops.map((barberShop) => (
+            <div key={barberShop.id} className="min-w-[167px] max-w-[167px]">
+              <BarberShopItem barberShop={barberShop} />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
