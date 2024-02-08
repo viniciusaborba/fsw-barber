@@ -51,7 +51,7 @@ export default async function Home() {
 
       <Carousel text="Recomendados" />
 
-      <Carousel text="Populares" />
+      <Carousel text="Populares" popular/>
     </div>
   );
 }
