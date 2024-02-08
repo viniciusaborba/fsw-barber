@@ -1,0 +1,51 @@
+import { redirect } from "next/navigation";
+import BarberShopItem from "../(home)/_components/barbershop-item";
+import Header from "../_components/header";
+import { db } from "../_lib/prisma";
+import Search from "../(home)/_components/search";
+
+interface BarberShopsPageProps {
+  searchParams: {
+    search?: string;
+  };
+}
+
+const BarberShopsPage = async ({ searchParams }: BarberShopsPageProps) => {
+  if (!searchParams.search) {
+    return redirect("/");
+  }
+  const barberShops = await db.barbershop.findMany({
+    where: {
+      name: {
+        contains: searchParams.search,
+        mode: "insensitive",
+      },
+    },
+  });
+
+  return (
+    <>
+      <Header />
+
+      <div className="px-5 py-6 flex flex-col gap-6">
+        <Search
+          defaultValues={{
+            search: searchParams.search,
+          }}
+        />
+        <h1 className="text-gray-400 font-bold text-xs uppercase">
+          Resultados para &quot;{searchParams.search}&quot;
+          <div className="grid grid-cols-2 mt-3 gap-4">
+            {barberShops.map((barberShop) => (
+              <div key={barberShop.id} className="w-full">
+                <BarberShopItem barberShop={barberShop} />
+              </div>
+            ))}
+          </div>
+        </h1>
+      </div>
+    </>
+  );
+};
+
+export default BarberShopsPage;

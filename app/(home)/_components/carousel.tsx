@@ -2,7 +2,7 @@ import { db } from "@/app/_lib/prisma";
 import BarberShopItem from "./barbershop-item";
 
 interface CarouselProps {
-  text: string
+  text: string;
 }
 
 async function Carousel({ text }: CarouselProps) {
@@ -16,7 +16,9 @@ async function Carousel({ text }: CarouselProps) {
 
       <div className="flex gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden px-5">
         {barberShops.map((barberShop) => (
-          <BarberShopItem key={barberShop.id} barberShop={barberShop} />
+          <div key={barberShop.id} className="min-w-[167px] max-w-[167px]">
+            <BarberShopItem  barberShop={barberShop} />
+          </div>
         ))}
       </div>
     </div>
