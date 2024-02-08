@@ -49,9 +49,9 @@ export default async function Home() {
         </div>
       )}
 
-      <Carousel text="Recomendados" recommended />
+      <Carousel text="Recomendados" />
 
-      <Carousel text="Populares"/>
+      <Carousel text="Populares" popular/>
     </div>
   );
 }
