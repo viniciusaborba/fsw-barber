@@ -1,4 +1,4 @@
-# FSW Store
+# FSW Barber
 
 This repository contains the code of a BarberShop manager app model application built during Full Stack Week.
 
